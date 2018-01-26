@@ -152,16 +152,47 @@ public class Project1 {
 		//6.Classify means 1 and 2
 		System.out.println("Classify class for the points m1 and m2");
         System.out.println("m1 in class1");
-        System.out.println(a1.find_discriminant(mean1,mean1,inverse1,deter1));
+        Matrix m1class1 = a1.find_discriminant(mean1,mean1,inverse1,deter1);
+        System.out.println(m1class1);
+        
         System.out.println("m1 in class2");
-        System.out.println(a1.find_discriminant(mean1,mean2,inverse2,deter2));
+        Matrix m1class2 = a1.find_discriminant(mean1,mean2,inverse2,deter2);
+        System.out.println(m1class2);
+        
         System.out.println("m2 in class1");
-        System.out.println(a1.find_discriminant(mean2,mean1,inverse1,deter1));
+        Matrix m2class1 = a1.find_discriminant(mean2,mean1,inverse1,deter1);
+        System.out.println(m2class1);
+        
         System.out.println("m2 in class2");
-        System.out.println(a1.find_discriminant(mean2,mean2,inverse2,deter2));
+        Matrix m2class2 = a1.find_discriminant(mean2,mean2,inverse2,deter2);
+        System.out.println(m2class2);
 		
 		System.out.println("-----------------------------------------------------------------------------------");
 		
+		//8.
+		ArrayList<Matrix> b_point1 = new ArrayList<Matrix>();
+		for (int i = 0; i<class1.size(); i++) {
+			Matrix m1c1 = a1.find_discriminant(class1.get(i),mean1,inverse1,deter1);
+			Matrix m1c2 = a1.find_discriminant(class1.get(i),mean2,inverse2,deter2);
+			a1.boundary_plot(class1.get(i), m1c1, m1c2, b_point1);	
+			
+		}
+		System.out.println("Class 1 plot points");
+		System.out.println(b_point1);
+		
+		
+		
+		ArrayList<Matrix> b_point2 = new ArrayList<Matrix>();
+		for (int i = 0; i<class2.size(); i++) {
+			Matrix m2c1 = a1.find_discriminant(class2.get(i),mean1,inverse1,deter1);
+			Matrix m2c2 = a1.find_discriminant(class2.get(i),mean2,inverse2,deter2);
+			a1.boundary_plot(class2.get(i), m2c1, m2c2, b_point2);				
+		}
+		System.out.println("Class 2 plot points");
+		System.out.println(b_point2);
+		
+		System.out.println("-----------------------------------------------------------------------------------");
+
         //9.
 		System.out.println("Estimate solution for linear system:");
         Matrix linear = new Matrix(new double [][]
@@ -198,6 +229,9 @@ public class Project1 {
         double deter_product = linear_deter * inverse_deter;
         System.out.println("Product of determinants matrix and inverse matrix");
         System.out.println(deter_product);
+        
+        Matrix checking = linear.mult(linear_inverse);
+        System.out.println(checking);
         
         
      

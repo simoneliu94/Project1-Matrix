@@ -48,7 +48,7 @@ public class Matrix {
     }
     
     
-    public double getMatrix(int row, int col) {
+    public double getValue(int row, int col) {
     	return this.matrix[row][col];
     }
     
@@ -507,6 +507,26 @@ public class Matrix {
     	g = g.add(g3);
     	return g;
     }
-    
+
+/**
+ *     
+ * @param aClass
+ * @param dis1
+ * @param dis2
+ * @return
+ */
+    public void boundary_plot(Matrix point, Matrix dis1, Matrix dis2, ArrayList<Matrix> b_point) {
+    	//ArrayList<Matrix> plot_points = new ArrayList<Matrix>();
+    	double step = 0.05;
+    	double eps = 0.1;
+    	
+    	double g1 = dis1.getValue(0,0)*step;
+    	double g2 = dis2.getValue(0,0)*step;
+    	double mag = Math.abs(g1-g2);
+    	
+    	if(mag<eps) {
+    		b_point.add(point);
+    	}    	
+    }    
     
 }
