@@ -17,8 +17,9 @@ public class Project1 {
     @SuppressWarnings("resource")
 	public static void main(String[] args) throws FileNotFoundException {
         Matrix a1 = new Matrix();
-
-        double [][] data = new double[][]{{4,-2,1}, {8,5,-4}, {-3,1,5}};
+        
+        //----------------------Testing------------------------------
+        /*double [][] data = new double[][]{{4,-2,1}, {8,5,-4}, {-3,1,5}};
         Matrix m3 = new Matrix(data);
         System.out.println("Testing Matrix m3 is a:");
         System.out.println(m3);    
@@ -45,18 +46,31 @@ public class Project1 {
         System.out.println("Testing Covariance w2");
         System.out.println(cov_test2);
         
+        Matrix i1 = cov_test1.find_inverse();
         System.out.println("Testing Inverse cov_test1");
         System.out.println(cov_test1.find_inverse());
         
+        Matrix i2 = cov_test2.find_inverse();
         System.out.println("Testing Inverse cov_test2");
         System.out.println(cov_test2.find_inverse());
         
+        double d1 = cov_test1.find_determinant();
         System.out.println("Testing Determinant cov_test1");
         System.out.println(cov_test1.find_determinant());
         
+        double d2 = cov_test2.find_determinant();
         System.out.println("Testing Determinant cov_test2");
         System.out.println(cov_test2.find_determinant());
         
+        System.out.println("");
+        
+        Matrix me1 = a1.find_mean(w1);  
+        Matrix me2 = a1.find_mean(w2); 
+        
+        System.out.println(a1.find_discriminant(me1,me1,i1,d1));
+        System.out.println(a1.find_discriminant(me1,me2,i2,d2));
+        System.out.println(a1.find_discriminant(me2,me1,i1,d1));
+        System.out.println(a1.find_discriminant(me2,me2,i2,d2));*/
         
         
         //------------------------------------------------------------------------------
@@ -108,8 +122,7 @@ public class Project1 {
         //Class 2
         Matrix cov2 = a1.find_covariance(class2);
         System.out.println("Covariance of class2:");
-        System.out.println(cov2);    
-        
+        System.out.println(cov2);  
 		System.out.println("-----------------------------------------------------------------------------------");
         
         //3. Find the determinants of covariance Z1 and Z2
@@ -136,9 +149,22 @@ public class Project1 {
         
 		System.out.println("-----------------------------------------------------------------------------------");
         
+		//6.Classify means 1 and 2
+		System.out.println("Classify class for the points m1 and m2");
+        System.out.println("m1 in class1");
+        System.out.println(a1.find_discriminant(mean1,mean1,inverse1,deter1));
+        System.out.println("m1 in class2");
+        System.out.println(a1.find_discriminant(mean1,mean2,inverse2,deter2));
+        System.out.println("m2 in class1");
+        System.out.println(a1.find_discriminant(mean2,mean1,inverse1,deter1));
+        System.out.println("m2 in class2");
+        System.out.println(a1.find_discriminant(mean2,mean2,inverse2,deter2));
+		
+		System.out.println("-----------------------------------------------------------------------------------");
+		
         //9.
 		System.out.println("Estimate solution for linear system:");
-        double [][]linear_data = new double [][]
+        Matrix linear = new Matrix(new double [][]
             	{{2,1,-1,-1,1,0,-1,-1},
             	{1,0,2,0,-1,-2,2,2},
             	{0,-2,5,4,-1,0,3,1},
@@ -146,17 +172,34 @@ public class Project1 {
             	{1,1,2,3,-2,2,2,9},
             	{0,-3,-2,2,0,2,4,-5,-3},
             	{-2,5,-1,1,1,3,0,-2,4},
-            	{1,0,1,1,0,2,1,1,-4}};
-            Matrix linear = new Matrix(linear_data);
-            System.out.println(linear);
-            
-            ArrayList<Matrix> linearClass = new ArrayList<Matrix>();
-            linearClass = linear.toClass();
-            
-            Matrix linear_b = new Matrix(new double [][] {{1},{-1},{2},{-2},{3},{-3},{4},{-4}});
-            
-            Matrix solve_linear = linear.gaussJordan(linear_b);
-            System.out.println(solve_linear);           
+            	{1,0,1,1,0,2,1,1,-4}});		
+
+        
+        Matrix linear_b = new Matrix(new double [][] {{1},{-1},{2},{-2},{3},{-3},{4},{-4}});    
+        System.out.println(linear);
+        
+        System.out.println("Solution, order [x, y, z, w, a, b, c, d]");
+        Matrix solve_linear = linear.gaussJordan(linear_b);
+        System.out.println(solve_linear.getCol(8));      
+        
+        
+        double linear_deter = linear.find_determinant();
+        System.out.println("Determinant of matrix:");
+        System.out.println(linear_deter);
+        
+        Matrix linear_inverse = linear.find_inverse();
+        System.out.println("Inverse of matrix:");
+        System.out.println(linear_inverse);
+        
+        double inverse_deter = linear_inverse.find_determinant();
+        System.out.println("Determinant of inverse matrix:");
+        System.out.println(inverse_deter);
+        
+        double deter_product = linear_deter * inverse_deter;
+        System.out.println("Product of determinants matrix and inverse matrix");
+        System.out.println(deter_product);
+        
+        
      
     }  
     

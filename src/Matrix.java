@@ -382,20 +382,20 @@ public class Matrix {
     	int r = 0;
     	int p;
     	double determinant = 1.0;
-    	Matrix A = this;
+    	Matrix A = new Matrix(this.matrix);
     	
     	//Double check on finding determinant matrix
     	//double deter = A.matrix[0][0]*A.matrix[1][1] - A.matrix[0][1]*A.matrix[1][0];
     	//System.out.println(deter);
     	    	
-    	for(int j = 0; j < numRows; j++) {
+    	for(int j = 0; j < A.numRows; j++) {
     		p = j;
     		//Compute pivot, find max of the column
-    		for(int i = j; i < numRows; i++) {
+    		for(int i = j; i < A.numRows; i++) {
     			if (Math.abs(A.matrix[p][j]) < Math.abs(A.matrix[i][j])) {
     				p = i;
     			}
-    		}   
+    		}   		
     		
     		if (A.matrix[p][j] == 0) {
     			determinant = 0.0;
@@ -403,25 +403,24 @@ public class Matrix {
     		//Swap 2 rows j and p
     		if(p > j) {
     			A.interchange_row(j, p);
-    			r++;
+    			r++;    			
     		}
     		
     		//subtract Aij /Ajj times row j from row i
-    		for (int i = 0; i < numRows; i++) {
+    		for (int i = 0; i < A.numRows; i++) {
     			if(i>j) {
     				double Aij = A.matrix[i][j];
     				double Ajj = A.matrix[j][j];
-    				for (int m = 1; m < numCols; m++) {
+    				for (int m = 1; m < A.numCols; m++) {
     					A.matrix[i][m] = A.matrix[i][m] - (A.matrix[j][m] * (Aij/Ajj));
     				}    				
     			}
     		}
     	}    	
-    	
     	//multiply diagonally 
-    	for (int i = 0; i < numRows; i++) {
+    	for (int i = 0; i < A.numRows; i++) {
 			determinant = determinant * A.matrix[i][i];
-		}
+		}    	
     	
     	//(-1)^r( A11xA22x…xAnn)
     	determinant = determinant * Math.pow((-1), r);
@@ -474,7 +473,7 @@ public class Matrix {
 			} 	 
     	} 
     	
-    	//Save inverse matrix 
+    	//Save inverse matrix since the form is now [A,I]
     	Matrix inverse = new Matrix(C.numRows,C.numCols/2);
     	for (int i = 0; i < inverse.numRows; i++) {
     		for (int j = C.numCols/2; j < C.numCols; j++) {
@@ -483,5 +482,31 @@ public class Matrix {
     	}    	
 		return inverse;    	
     }
+
+/**
+ *     
+ * @param points
+ * @param mean
+ * @param inverse
+ * @param det
+ * @return
+ */
+    public Matrix find_discriminant(Matrix points, Matrix mean, Matrix inverse, double det) {
+    	Matrix g = new Matrix(); 
+
+    	g = points.transpose().subtract(mean.transpose());
+    	g = g.mult(-0.5);
+    	g = g.mult(inverse);
+    	g = g.mult(points.subtract(mean));
+    	
+    	double g2 = (-0.5*Math.log(det));
+    	g2 = g2 + Math.log(0.5);
+    	
+    	Matrix g3 = new Matrix(new double[][] {{g2}});
+    	
+    	g = g.add(g3);
+    	return g;
+    }
+    
     
 }
