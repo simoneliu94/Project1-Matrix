@@ -51,6 +51,42 @@ public class Matrix {
     public double getMatrix(int row, int col) {
     	return this.matrix[row][col];
     }
+    
+    public Matrix getRow(int row) {
+    	Matrix A = new Matrix(1, numCols);
+    	for (int i=0; i<A.numCols; i++)
+        {            
+            A.matrix[0][i] = this.matrix[row][i];
+        }
+    	return A;
+    }
+    
+    public Matrix getCol(int col) {
+    	Matrix A = new Matrix(numRows, 1);
+    	for (int i=0; i<A.numRows; i++)
+        {            
+            A.matrix[i][0] = this.matrix[i][col];
+        }
+    	return A;
+    }
+
+    
+    public ArrayList<Matrix> toClass(){
+    	ArrayList<Matrix> w1 = new ArrayList<Matrix>();
+    	for (int i = 0; i<this.numRows; i++) { 
+    		w1.add(this.getRow(i));    		
+    	}
+    	return w1;
+    }
+    
+    public ArrayList<Matrix> toClass_transpose(){
+    	Matrix trans = this.transpose();
+    	ArrayList<Matrix> w1 = new ArrayList<Matrix>();
+    	for (int i = 0; i<trans.numCols; i++) { 
+    		w1.add(trans.getCol(i));    		
+    	}
+    	return w1;
+    }
 
 /**
  * Represents a matrix in 2D in String format
@@ -70,6 +106,8 @@ public class Matrix {
         System.out.println(numRows +"x"+ numCols + " matrix");
         return output;
     }
+    
+    
 /**
  * Swaps rows and columns to each other
  * @return a new matrix after swapping
@@ -265,12 +303,13 @@ public class Matrix {
     	
     	//1.Subtract the mean from each vector of the class
     	//2.Multiply the result from 1. to its transpose to find nxn product
-    	for (int i = 1; i < aClass.size(); i++) {
-    		Matrix m1 = aClass.get(i).subtract(mean);
+    	for (int i = 0; i < aClass.size(); i++) {
+    		Matrix m1 = aClass.get(i).subtract(mean);    		
     		Matrix square = m1.mult(m1.transpose());
-    		class1.add(square);
+    		
+    		class1.add(square);    		
     	}
-    	
+    	    	
     	Matrix covariance = find_mean(class1);
     	
 		return covariance;    	

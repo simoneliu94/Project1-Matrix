@@ -20,13 +20,43 @@ public class Project1 {
 
         double [][] data = new double[][]{{4,-2,1}, {8,5,-4}, {-3,1,5}};
         Matrix m3 = new Matrix(data);
-        System.out.println("Matrix m3 is a:");
+        System.out.println("Testing Matrix m3 is a:");
         System.out.println(m3);    
         
         Matrix b = new Matrix(new double[][] {{11},{14},{10}});
         Matrix testGauss = m3.gaussJordan(b);
         System.out.println("Testing GaussJordan");
         System.out.println(testGauss);
+        
+        ArrayList<Matrix> w1 = new ArrayList<Matrix>();
+        ArrayList<Matrix> w2 = new ArrayList<Matrix>();
+        
+        Matrix w1_vector = new Matrix(new double[][] {{2, 6}, {3, 4}, {3, 8}, {4, 6}});
+        Matrix w2_vector = new Matrix(new double[][] {{1, -2}, {3, 0}, {3, -4}, {5, -2}});
+        
+       
+        w1 = w1_vector.toClass_transpose();            
+        Matrix cov_test1 = a1.find_covariance(w1);
+        System.out.println("Testing Covariance w1");
+        System.out.println(cov_test1);
+        
+        w2 = w2_vector.toClass_transpose();            
+        Matrix cov_test2 = a1.find_covariance(w2);
+        System.out.println("Testing Covariance w2");
+        System.out.println(cov_test2);
+        
+        System.out.println("Testing Inverse cov_test1");
+        System.out.println(cov_test1.find_inverse());
+        
+        System.out.println("Testing Inverse cov_test2");
+        System.out.println(cov_test2.find_inverse());
+        
+        System.out.println("Testing Determinant cov_test1");
+        System.out.println(cov_test1.find_determinant());
+        
+        System.out.println("Testing Determinant cov_test2");
+        System.out.println(cov_test2.find_determinant());
+        
         
         
         //------------------------------------------------------------------------------
@@ -55,7 +85,7 @@ public class Project1 {
 			class2.add(new Matrix(vector2));
 		}
 
-		fileReader.close();		
+		fileReader.close();	
         
 		System.out.println("-----------------------------------------------------------------------------------");
         
@@ -119,10 +149,18 @@ public class Project1 {
             	{1,0,1,1,0,2,1,1,-4}};
             Matrix linear = new Matrix(linear_data);
             System.out.println(linear);
+            
+            ArrayList<Matrix> linearClass = new ArrayList<Matrix>();
+            linearClass = linear.toClass();
+            
             Matrix linear_b = new Matrix(new double [][] {{1},{-1},{2},{-2},{3},{-3},{4},{-4}});
             
             Matrix solve_linear = linear.gaussJordan(linear_b);
-            System.out.println(solve_linear);
+            System.out.println(solve_linear);           
      
     }  
+    
+    //----------------------Functions----------------------------
+    
+
 }
