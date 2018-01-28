@@ -70,6 +70,14 @@ public class Matrix {
         }
     	return A;
     }
+    
+    public int get_numRow() {
+    	return numRows;
+    }
+    
+    public int get_numCol() {
+    	return numCols;
+    }
 
     
     public ArrayList<Matrix> toClass(){
@@ -517,12 +525,11 @@ public class Matrix {
  * @return
  */
     public void boundary_plot(Matrix point, Matrix dis1, Matrix dis2, ArrayList<Matrix> b_point) {
-    	//ArrayList<Matrix> plot_points = new ArrayList<Matrix>();
     	double step = 0.05;
     	double eps = 0.1;
     	
-    	double g1 = dis1.getValue(0,0)*step;
-    	double g2 = dis2.getValue(0,0)*step;
+    	double g1 = dis1.getValue(0,0);
+    	double g2 = dis2.getValue(0,0);
     	double mag = Math.abs(g1-g2);
     	
     	if(mag<eps) {
