@@ -150,7 +150,7 @@ public class Project1 {
 		System.out.println("-----------------------------------------------------------------------------------");
         
 		//6.Classify means 1 and 2
-		System.out.println("Classify class for the points m1 and m2");
+		System.out.println("Classify classes for the points m1 and m2");
         System.out.println("m1 in class1");
         Matrix m1class1 = a1.find_discriminant(mean1,mean1,inverse1,deter1);
         System.out.println(m1class1);
@@ -169,27 +169,49 @@ public class Project1 {
 		
 		System.out.println("-----------------------------------------------------------------------------------");
 		
-		//8.
+		//7, 8.
 		ArrayList<Matrix> b_point1 = new ArrayList<Matrix>();
+		ArrayList<Matrix> miss_class1 = new ArrayList<Matrix>();
 		for (int i = 0; i<class1.size(); i++) {
 			Matrix m1c1 = a1.find_discriminant(class1.get(i),mean1,inverse1,deter1);
 			Matrix m1c2 = a1.find_discriminant(class1.get(i),mean2,inverse2,deter2);
-			a1.boundary_plot(class1.get(i), m1c1, m1c2, b_point1);	
-			
+			if (m1c1.getValue(0, 0)<m1c2.getValue(0, 0)) {				
+				System.out.println("g1: "+m1c1.getValue(0, 0));
+				System.out.println("g2: "+m1c2.getValue(0, 0));
+				miss_class1.add(class1.get(i));	
+			}
+			a1.boundary_plot(class1.get(i), m1c1, m1c2, b_point1);				
 		}
-		System.out.println("Class 1 plot points");
-		System.out.println(b_point1);
-		
+		System.out.println("------Misclassified points Class 1: "+miss_class1.size());
+		for (int i=0; i<miss_class1.size(); i++) {
+			System.out.println(miss_class1.get(i));			
+		}
+		System.out.println("Class 1 Boundary points: "+b_point1.size());
+		/*for (int i=0; i<b_point1.size(); i++) {
+				System.out.println(b_point1.get(i).getValue(1, 0));			
+		}*/
 		
 		
 		ArrayList<Matrix> b_point2 = new ArrayList<Matrix>();
+		ArrayList<Matrix> miss_class2 = new ArrayList<Matrix>();
 		for (int i = 0; i<class2.size(); i++) {
 			Matrix m2c1 = a1.find_discriminant(class2.get(i),mean1,inverse1,deter1);
 			Matrix m2c2 = a1.find_discriminant(class2.get(i),mean2,inverse2,deter2);
+			if (m2c1.getValue(0, 0)>m2c2.getValue(0, 0)) {
+				System.out.println("g1: "+m2c1.getValue(0, 0));
+				System.out.println("g2: "+m2c2.getValue(0, 0));
+				miss_class2.add(class2.get(i));				
+			}
 			a1.boundary_plot(class2.get(i), m2c1, m2c2, b_point2);				
 		}
-		System.out.println("Class 2 plot points");
-		System.out.println(b_point2);
+		System.out.println("------Misclassified points Class 2: "+miss_class2.size());
+		for (int i=0; i<miss_class2.size(); i++) {
+			System.out.println(miss_class2.get(i));			
+		}
+		System.out.println("Class 2 Boundary points: "+b_point2.size());
+		/*for (int i=0; i<b_point2.size(); i++) {
+			System.out.println(b_point2.get(i).getValue(1, 0));			
+		}*/
 		
 		System.out.println("-----------------------------------------------------------------------------------");
 
@@ -229,10 +251,17 @@ public class Project1 {
         double deter_product = linear_deter * inverse_deter;
         System.out.println("Product of determinants matrix and inverse matrix");
         System.out.println(deter_product);
+        System.out.println("");
+
         
         Matrix checking = linear.mult(linear_inverse);
+        System.out.println("Product of matrix and its inverse");
         System.out.println(checking);
         
+		System.out.println("-----------------------------------------------------------------------------------");
+
+		//10.
+		System.out.println(linear.find_condition(linear_inverse));
         
      
     }  

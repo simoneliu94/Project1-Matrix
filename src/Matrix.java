@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays; 
+import java.util.Arrays;
+import java.util.Collections; 
 
 /**
  * 
@@ -527,6 +528,45 @@ public class Matrix {
     	if(mag<eps) {
     		b_point.add(point);
     	}    	
-    }    
+    }  
+
+/**
+ *     
+ * @param B
+ * @return
+ */
+    public double find_condition(Matrix B) {
+    	double conditionNum = 0.0;
+    	Matrix A = new Matrix(this.matrix);
+    	double sum = 0.0;
+    	double sum2 =0.0;
+    	ArrayList<Double>matrix1 = new ArrayList<Double>();
+    	ArrayList<Double>matrix2 = new ArrayList<Double>();
+    	
+    	for (int i = 0; i<A.numRows; i++) {
+    		sum = 0.0;
+    		for (int j = 0; j<A.numCols; j++) {
+    			sum = sum + Math.abs(A.matrix[i][j]);
+    		}
+    		matrix1.add(sum);
+    		//System.out.println(matrix1);
+    	}    	
+    	sum = Collections.max(matrix1);
+    	//System.out.println(sum);
+    	
+    	for (int i = 0; i<B.numRows; i++) {
+    		sum2 = 0.0;
+    		for (int j = 0; j<B.numCols; j++) {
+    			sum2 = sum2 + Math.abs(B.matrix[i][j]);
+    		}
+    		matrix2.add(sum2);
+    		//System.out.println(matrix2);
+    	}    	
+    	sum2 = Collections.max(matrix2);   
+    	//System.out.println(sum2);
+    	
+    	conditionNum = sum*sum2;
+    	return conditionNum;
+    }
     
 }
